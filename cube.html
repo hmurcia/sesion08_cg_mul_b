@@ -25,12 +25,25 @@
 	camera.position.z = 60;
 	scene.add(camera);
 
-	var boxGeometry = new THREE.BoxGeometry(10, 10, 10);
-	var basicMaterial = new THREE.MeshBasicMaterial({color: 0x0095DD});
-	var cube = new THREE.Mesh(boxGeometry, basicMaterial);
+	const ejesXYZ = new THREE.AxesHelper( 35 );
+	scene.add(ejesXYZ);
+
+	var cube = Box(10, 10, 10, 'Basic', '0xEAEFF2');
 	scene.add(cube);
 	cube.rotation.set(0.4, 0.2, 0);
 
+	function Box(dx, dy, dz, material, color) {
+		var boxGeometry = new THREE.BoxGeometry(dx, dy, dz);
+		var basicMaterial;
+		switch(material) {
+			case 'Basic': basicMaterial = new THREE.MeshBasicMaterial({color: color}); break;
+			case 'Standard': basicMaterial = new THREE.MeshStandardMaterial({color: color}); break;
+			case 'Physical': basicMaterial = new THREE.MeshPhysicalMaterial({color: color}); break;
+			case 'Phong': basicMaterial = new THREE.MeshPhongMaterial({color: color}); break;
+			case 'Lambert': basicMaterial = new THREE.MeshLambertMaterial({color: color}); break;
+		}
+		return new THREE.Mesh(boxGeometry, basicMaterial);
+	}
 	function render() {
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
